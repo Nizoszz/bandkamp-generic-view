@@ -1,4 +1,4 @@
-from rest_framework.views import APIView, status, Response
+from rest_framework.views import APIView, status, Response, Request
 from .models import Album
 from .serializers import AlbumSerializer
 from django.shortcuts import get_object_or_404
@@ -11,7 +11,7 @@ class AlbumView(APIView, PageNumberPagination):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         """
         Obtençao de albums
         """
@@ -22,10 +22,11 @@ class AlbumView(APIView, PageNumberPagination):
 
         return self.get_paginated_response(serializer.data)
 
-    def post(self, request):
+    def post(self, request: Request) -> Response:
         """
         Criaçao de album
         """
+        print(request.data)
         serializer = AlbumSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
