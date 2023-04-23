@@ -7,4 +7,3 @@ class AlbumSerializer(serializers.ModelSerializer):
         model = Album
         fields = ["id", "name", "year", "user_id"]
 
-
